@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\ValidCEP;
+use App\Rules\ValidCPF;
 
 class PessoaUpdateRequest extends FormRequest
 {
@@ -13,7 +15,7 @@ class PessoaUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +26,10 @@ class PessoaUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            // url: viacep.com.br/ws/[8digitCEP]/json/ 
+            'cep' => ['digits:8', new ValidCEP],
+            // Aptation from: https://www.geradorcpf.com/script-validar-cpf-php.htm 
+            'cpf' => ['numeric', new ValidCPF]
         ];
     }
 }

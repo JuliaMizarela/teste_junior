@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\ValidCEP;
 
 class PessoaStoreRequest extends FormRequest
 {
@@ -24,7 +25,8 @@ class PessoaStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            // url: viacep.com.br/ws/[8digitCEP]/json/ 
+            'cep' => ['digits:8', new ValidCEP]
         ];
     }
 }
