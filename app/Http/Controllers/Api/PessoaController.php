@@ -66,7 +66,11 @@ class PessoaController extends Controller
      */
     public function update(PessoaUpdateRequest $request, $id)
     {
-        //
+        $pessoa = $this->pessoaService->update($request->all(), $id);
+        if ($pessoa) {
+            return response()->json($pessoa, Response::HTTP_OK);
+        }
+        return response()->json($pessoa, Response::HTTP_BAD_REQUEST);
     }
 
     /**
@@ -77,6 +81,10 @@ class PessoaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $pessoa = $this->pessoaService->delete($id);
+        if ($pessoa) {
+            return response()->json($pessoa, Response::HTTP_OK);
+        }
+        return response()->json($pessoa, Response::HTTP_BAD_REQUEST);
     }
 }
