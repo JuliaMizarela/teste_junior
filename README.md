@@ -1,78 +1,33 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+Teste:
+    - Ser capaz de fazer a aplicação funcionar.
+    - Validar o CEP enviado na requisição de cadastro e update(CEP precisa ser válido e constar na base de dados do ViaCEP: https://viacep.com.br).
+    - Validar o CPF enviado na requisição de cadastro e update.
+    - Disponibilizar os serviços de "show", "delete", "update", baseado nos serviços existentes, "store" e "find" no controller "PessoaController".
+    
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+USANDO (bash):
 
-## About Laravel
+curl -X POST -F 'nome=Alberto' -F 'sobrenome=Aquino' -F 'cpf=98906698542' -F 'celular=56' -F 'logradouro=kjd' -F 'cep=01001000'  http://127.0.0.1:8000/api/v1/pessoa
+>> {"nome":"Alberto","sobrenome":"Aquino","cpf":"98906698542","celular":"56","logradouro":"kjd","cep":"01001000","updated_at":"2022-02-11 22:58:45","created_at":"2022-02-11 22:58:45","id":1}
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+curl -X GET  http://127.0.0.1:8000/api/v1/pessoa/1
+>> {"id":1,"nome":"Alberto","sobrenome":"Aquino","cpf":"98906698542","celular":"56","logradouro":"kjd","cep":"01001000","created_at":"2022-02-11 22:58:45","updated_at":"2022-02-11 22:58:45"}
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+curl -X POST -F 'sobrenome=de Aquino'  http://127.0.0.1:8000/api/v1/pessoa/1
+>> {"id":1,"nome":"Alberto","sobrenome":"de Aquino","cpf":"98906698542","celular":"56","logradouro":"kjd","cep":"01001000","created_at":"2022-02-11 22:58:45","updated_at":"2022-02-11 23:11:42"}
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+curl -X DELETE  http://127.0.0.1:8000/api/v1/pessoa/1
+>> true
 
-## Learning Laravel
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+curl -X POST -F 'nome=Teste' -F 'sobrenome=de CPF Invalido A' -F 'cpf=00000000002' -F 'celular=56' -F 'logradouro=kjd' -F 'cep=01001000'  http://127.0.0.1:8000/api/v1/pessoa
+>> redirects
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+curl -X POST -F 'nome=Teste' -F 'sobrenome=de CPF Invalido B' -F 'cpf=989066985' -F 'celular=56' -F 'logradouro=kjd' -F 'cep=01001000'  http://127.0.0.1:8000/api/v1/pessoa
+>> redirects
 
-## Laravel Sponsors
+curl -X POST -F 'nome=Teste' -F 'sobrenome=de CEP Invalido A' -F 'cpf=98906698542' -F 'celular=56' -F 'logradouro=kjd' -F 'cep=00000000'  http://127.0.0.1:8000/api/v1/pessoa
+>> redirects
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-- [Appoly](https://www.appoly.co.uk)
-- [OP.GG](https://op.gg)
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+curl -X POST -F 'nome=Teste' -F 'sobrenome=de CEP Invalido B' -F 'cpf=98906698542' -F 'celular=56' -F 'logradouro=kjd' -F 'cep=0100100'  http://127.0.0.1:8000/api/v1/pessoa
+>> redirects

@@ -26,8 +26,7 @@ class ValidCEP implements Rule
     public function passes($attribute, $cep)
     {
         $xml = simplexml_load_string( @file_get_contents("http://viacep.com.br/ws/".$cep."/xml/"));
-        $erro = (string) $xml->erro;
-        return !$erro;
+        return !isset($xml->erro);
     }
 
     /**

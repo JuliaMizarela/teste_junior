@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\ValidCEP;
+use App\Rules\ValidCPF;
 
 class PessoaStoreRequest extends FormRequest
 {
@@ -26,7 +27,8 @@ class PessoaStoreRequest extends FormRequest
     {
         return [
             // url: viacep.com.br/ws/[8digitCEP]/json/ 
-            'cep' => ['digits:8', new ValidCEP]
+            'cep' => ['digits:8', new ValidCEP],
+            'cpf' => ['numeric', new ValidCPF]
         ];
     }
 }
