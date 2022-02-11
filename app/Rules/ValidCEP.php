@@ -4,7 +4,7 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class validCEP implements Rule
+class ValidCEP implements Rule
 {
     /**
      * Create a new rule instance.
@@ -23,9 +23,11 @@ class validCEP implements Rule
      * @param  mixed  $value
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $cep)
     {
-        //
+        $xml = simplexml_load_string( @file_get_contents("http://viacep.com.br/ws/".$cep."/xml/"));
+        $erro = (string) $xml->erro;
+        return !$erro;
     }
 
     /**
